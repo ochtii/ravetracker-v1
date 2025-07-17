@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Login - RaveTracker v1</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 50px; }
+        .container { max-width: 400px; margin: 0 auto; }
+        button { padding: 10px 20px; margin: 10px; }
+        .status { margin: 20px 0; padding: 10px; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Test Login System</h1>
+        
+        <div id="status"></div>
+        
+        <button onclick="testLogin()">Test Login (Set Cookie)</button>
+        <button onclick="testLogout()">Test Logout (Clear Cookie)</button>
+        <button onclick="checkStatus()">Check Auth Status</button>
+        <button onclick="goHome()">Go to Home</button>
+        
+        <div id="debug-info"></div>
+    </div>
+
+    <script>
+        function testLogin() {
+            const token = 'test_token_' + Date.now();
+            document.cookie = `auth_token=${token}; path=/; max-age=86400`;
+            localStorage.setItem('auth_token', token);
+            localStorage.setItem('user_logged_in', 'true');
+            
+            showStatus('Login erfolgreich! Token gesetzt: ' + token, 'success');
+            checkStatus();
+        }
+        
+        function testLogout() {
+            document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('user_logged_in');
+            
+            showStatus('Logout erfolgreich! Cookie gelöscht.', 'success');
+            checkStatus();
+        }
+        
+        function checkStatus() {
+            const cookies = document.cookie.split(';').reduce((acc, cookie) => {
+                const [key, value] = cookie.trim().split('=');
+                acc[key] = value;
+                return acc;
+            }, {});
+            
+            const localToken = localStorage.getItem('auth_token');
+            const cookieToken = cookies['auth_token'];
+            
+            document.getElementById('debug-info').innerHTML = `
+                <h3>Debug Info:</h3>
+                <p><strong>Cookie Token:</strong> ${cookieToken || 'None'}</p>
+                <p><strong>LocalStorage Token:</strong> ${localToken || 'None'}</p>
+                <p><strong>Has Auth:</strong> ${cookieToken ? 'YES' : 'NO'}</p>
+            `;
+        }
+        
+        function goHome() {
+            window.location.href = '/';
+        }
+        
+        function showStatus(message, type) {
+            const status = document.getElementById('status');
+            status.className = 'status ' + type;
+            status.textContent = message;
+        }
+        
+        // Auto-check status on load
+        checkStatus();
+    </script>
+</body>
+</html>

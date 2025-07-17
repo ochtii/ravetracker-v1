@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+
+{% block title %}Home - RaveTracker v1{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="hero-content">
+        <div class="hero-text animate-fade-in">
+            <div class="hero-logo">
+                <img src="{{ url_for('static', filename='img/rt-logo-3.png') }}" alt="RaveTracker Logo" class="hero-logo-img">
+            </div>
+            <h1 class="hero-title">
+                Entdecke die besten 
+                <span class="gradient-text">Elektronischen Events</span>
+            </h1>
+            <p class="hero-description">
+                Die ultimative Plattform für Goa, Psytrance, DnB und Hardcore Events. 
+                Verbinde dich mit der Community und erlebe unvergessliche Nächte.
+            </p>
+            <div class="hero-buttons">
+                <a href="{{ url_for('main.events') }}" class="btn btn-primary btn-large">
+                    Events entdecken
+                </a>
+                <a href="{{ url_for('main.register') }}" class="btn btn-outline btn-large">
+                    Jetzt registrieren
+                </a>
+            </div>
+        </div>
+        
+        <div class="hero-visual animate-slide-in">
+            <div class="visual-grid">
+                <div class="visual-card goa">
+                    <span class="genre-icon">🌀</span>
+                    <span class="genre-name">Goa</span>
+                </div>
+                <div class="visual-card psytrance">
+                    <span class="genre-icon">🎭</span>
+                    <span class="genre-name">Psytrance</span>
+                </div>
+                <div class="visual-card dnb">
+                    <span class="genre-icon">⚡</span>
+                    <span class="genre-name">DnB</span>
+                </div>
+                <div class="visual-card hardcore">
+                    <span class="genre-icon">🔥</span>
+                    <span class="genre-name">Hardcore</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="features-section">
+    <div class="container">
+        <div class="section-header text-center">
+            <h2>Warum RaveTracker?</h2>
+            <p>Alles was du für das perfekte Event-Erlebnis brauchst</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card glass">
+                <div class="feature-icon">📅</div>
+                <h3>Event-Kalender</h3>
+                <p>Übersichtlicher Kalender mit allen Events in deiner Region. Filter nach Genre, Datum und Location.</p>
+            </div>
+            
+            <div class="feature-card glass">
+                <div class="feature-icon">🎫</div>
+                <h3>Event-Management</h3>
+                <p>Erstelle und verwalte deine eigenen Events mit allen wichtigen Details und Teilnehmerlisten.</p>
+            </div>
+            
+            <div class="feature-card glass">
+                <div class="feature-icon">👥</div>
+                <h3>Community</h3>
+                <p>Vernetze dich mit Gleichgesinnten, teile Erfahrungen und entdecke neue Events gemeinsam.</p>
+            </div>
+            
+            <div class="feature-card glass">
+                <div class="feature-icon">🔔</div>
+                <h3>Benachrichtigungen</h3>
+                <p>Verpasse nie wieder ein Event deiner Lieblings-DJs oder in deinen bevorzugten Locations.</p>
+            </div>
+            
+            <div class="feature-card glass">
+                <div class="feature-icon">🎵</div>
+                <h3>Genre-Fokus</h3>
+                <p>Speziell entwickelt für elektronische Musik: Goa, Psytrance, DnB, Hardcore und mehr.</p>
+            </div>
+            
+            <div class="feature-card glass">
+                <div class="feature-icon">🛡️</div>
+                <h3>Moderation</h3>
+                <p>Sicherer Raum durch aktive Community-Moderation und Qualitätskontrolle der Events.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="genres-section">
+    <div class="container">
+        <div class="section-header text-center">
+            <h2>Unterstützte Genres</h2>
+            <p>Finde Events für jeden elektronischen Musikgeschmack</p>
+        </div>
+        
+        <div class="genres-grid">
+            <div class="genre-showcase goa">
+                <div class="genre-background"></div>
+                <div class="genre-content">
+                    <h3>Goa Trance</h3>
+                    <p>Psychedelische Klänge und spirituelle Vibes aus den 90ern</p>
+                    <div class="genre-stats">
+                        <span id="goa-events">0</span> Events
+                    </div>
+                </div>
+            </div>
+            
+            <div class="genre-showcase psytrance">
+                <div class="genre-background"></div>
+                <div class="genre-content">
+                    <h3>Psytrance</h3>
+                    <p>Moderne psychedelische Elektronik mit treibenden Basslines</p>
+                    <div class="genre-stats">
+                        <span id="psytrance-events">0</span> Events
+                    </div>
+                </div>
+            </div>
+            
+            <div class="genre-showcase dnb">
+                <div class="genre-background"></div>
+                <div class="genre-content">
+                    <h3>Drum & Bass</h3>
+                    <p>Schnelle Breakbeats und tiefe Bässe für intensive Nächte</p>
+                    <div class="genre-stats">
+                        <span id="dnb-events">0</span> Events
+                    </div>
+                </div>
+            </div>
+            
+            <div class="genre-showcase hardcore">
+                <div class="genre-background"></div>
+                <div class="genre-content">
+                    <h3>Hardcore</h3>
+                    <p>Kompromisslos harte Beats für die extremsten Raver</p>
+                    <div class="genre-stats">
+                        <span id="hardcore-events">0</span> Events
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="upcoming-events-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Kommende Events</h2>
+            <a href="{{ url_for('main.events') }}" class="btn btn-outline">Alle Events anzeigen</a>
+        </div>
+        
+        <div class="events-preview" id="upcoming-events">
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+                <p>Lade Events...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cta-section">
+    <div class="container">
+        <div class="cta-content glass">
+            <h2>Bereit für das nächste Level?</h2>
+            <p>Werde Teil der RaveTracker Community und erlebe elektronische Musik wie nie zuvor</p>
+            <div class="cta-buttons">
+                <a href="{{ url_for('main.register') }}" class="btn btn-primary btn-large">
+                    Jetzt registrieren
+                </a>
+                <a href="{{ url_for('main.events') }}" class="btn btn-secondary btn-large">
+                    Events entdecken
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/home.js') }}"></script>
+{% endblock %}

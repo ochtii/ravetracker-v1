@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+
+{% block title %}Event Details - RaveTracker v1{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/events.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/event-detail.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="event-detail-container">
+        <!-- Loading State -->
+        <div id="loading-state" class="loading-state">
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+                <p>Event wird geladen...</p>
+            </div>
+        </div>
+
+        <!-- Error State -->
+        <div id="error-state" class="error-state" style="display: none;">
+            <div class="error-content">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h2>Event nicht gefunden</h2>
+                <p>Das angeforderte Event existiert nicht oder wurde entfernt.</p>
+                <a href="/events" class="btn btn-primary">Zurück zu Events</a>
+            </div>
+        </div>
+
+        <!-- Event Content -->
+        <div id="event-content" class="event-content" style="display: none;">
+            <!-- Event Header -->
+            <div class="event-header">
+                <div class="event-header-content">
+                    <div class="event-meta">
+                        <span class="genre-tag" id="event-genre"></span>
+                        <span class="event-type" id="event-type"></span>
+                    </div>
+                    <h1 class="event-title" id="event-title"></h1>
+                    <div class="event-subtitle">
+                        <div class="event-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span id="event-location"></span>
+                        </div>
+                        <div class="event-date">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span id="event-date"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="event-actions">
+                    <button class="btn btn-outline" id="share-btn">
+                        <i class="fas fa-share-alt"></i>
+                        Teilen
+                    </button>
+                    <button class="btn btn-primary" id="interested-btn">
+                        <i class="fas fa-star"></i>
+                        <span id="interested-text">Interessiert</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Event Details Grid -->
+            <div class="event-details-grid">
+                <!-- Left Column -->
+                <div class="event-main">
+                    <!-- Description -->
+                    <section class="event-section">
+                        <h2><i class="fas fa-info-circle"></i> Beschreibung</h2>
+                        <div class="event-description" id="event-description"></div>
+                    </section>
+
+                    <!-- Artists -->
+                    <section class="event-section" id="artists-section" style="display: none;">
+                        <h2><i class="fas fa-microphone"></i> Artists & Lineup</h2>
+                        <div class="artists-grid" id="artists-grid"></div>
+                        <div class="headliner" id="headliner-section" style="display: none;">
+                            <h3>Headliner</h3>
+                            <div class="headliner-name" id="headliner-name"></div>
+                        </div>
+                    </section>
+
+                    <!-- Special Info -->
+                    <section class="event-section" id="special-info-section" style="display: none;">
+                        <h2><i class="fas fa-exclamation-circle"></i> Wichtige Hinweise</h2>
+                        <div class="special-info" id="special-info"></div>
+                    </section>
+                </div>
+
+                <!-- Right Column -->
+                <div class="event-sidebar">
+                    <!-- Quick Info -->
+                    <div class="info-card">
+                        <h3><i class="fas fa-clock"></i> Event Info</h3>
+                        <div class="info-list">
+                            <div class="info-item">
+                                <span class="info-label">Start:</span>
+                                <span class="info-value" id="start-time"></span>
+                            </div>
+                            <div class="info-item" id="end-time-item" style="display: none;">
+                                <span class="info-label">Ende:</span>
+                                <span class="info-value" id="end-time"></span>
+                            </div>
+                            <div class="info-item" id="price-item" style="display: none;">
+                                <span class="info-label">Preis:</span>
+                                <span class="info-value" id="event-price"></span>
+                            </div>
+                            <div class="info-item" id="capacity-item" style="display: none;">
+                                <span class="info-label">Kapazität:</span>
+                                <span class="info-value" id="event-capacity"></span>
+                            </div>
+                            <div class="info-item" id="stages-item" style="display: none;">
+                                <span class="info-label">Stages:</span>
+                                <span class="info-value" id="event-stages"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="info-card">
+                        <h3><i class="fas fa-map-marker-alt"></i> Location</h3>
+                        <div class="location-info">
+                            <div class="location-name" id="location-name"></div>
+                            <div class="location-address" id="location-address"></div>
+                            <div class="location-city" id="location-city"></div>
+                        </div>
+                    </div>
+
+                    <!-- Features -->
+                    <div class="info-card" id="features-card" style="display: none;">
+                        <h3><i class="fas fa-star"></i> Features</h3>
+                        <div class="features-list" id="features-list"></div>
+                    </div>
+
+                    <!-- Tickets & Links -->
+                    <div class="info-card" id="links-card" style="display: none;">
+                        <h3><i class="fas fa-ticket-alt"></i> Tickets & Links</h3>
+                        <div class="links-list" id="links-list"></div>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="info-card">
+                        <h3><i class="fas fa-chart-bar"></i> Statistiken</h3>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-number" id="views-count">0</div>
+                                <div class="stat-label">Aufrufe</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" id="interested-count">0</div>
+                                <div class="stat-label">Interessiert</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Organizer -->
+                    <div class="info-card">
+                        <h3><i class="fas fa-user"></i> Veranstalter</h3>
+                        <div class="organizer-info">
+                            <div class="organizer-name" id="organizer-name"></div>
+                            <div class="organizer-date" id="created-date"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Modal -->
+    <div id="share-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-share-alt"></i> Event teilen</h2>
+                <button class="modal-close" id="close-share-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="share-options">
+                    <button class="share-btn" id="copy-link-btn">
+                        <i class="fas fa-link"></i>
+                        Link kopieren
+                    </button>
+                    <a class="share-btn" id="share-facebook" target="_blank">
+                        <i class="fab fa-facebook"></i>
+                        Facebook
+                    </a>
+                    <a class="share-btn" id="share-twitter" target="_blank">
+                        <i class="fab fa-twitter"></i>
+                        Twitter
+                    </a>
+                    <a class="share-btn" id="share-whatsapp" target="_blank">
+                        <i class="fab fa-whatsapp"></i>
+                        WhatsApp
+                    </a>
+                </div>
+                <div class="share-link">
+                    <input type="text" id="share-link-input" readonly>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <!-- Firebase Configuration and Auth Check -->
+    <script src="{{ url_for('static', filename='js/firebase-config.js') }}"></script>
+    <script>
+        // Pass event ID to JavaScript
+        window.eventId = "{{ event_id }}";
+    </script>
+    <script src="{{ url_for('static', filename='js/event-detail.js') }}"></script>
+{% endblock %}

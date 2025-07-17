@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Registrierung - RaveTracker v1{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1>Werde Teil der Community</h1>
+            <p>Registriere dich mit einem Invite-Code und entdecke elektronische Events</p>
+        </div>
+        
+        <div class="invite-code-info">
+            <h4>🎫 Invite-Code erforderlich</h4>
+            <p>Die Registrierung erfolgt nur mit einem gültigen Invite-Code. Wende dich an einen bestehenden Nutzer oder die Community.</p>
+        </div>
+        
+        <form class="auth-form" id="registerForm">
+            <div class="form-group">
+                <label for="invite_code" class="form-label">Invite-Code</label>
+                <input type="text" id="invite_code" name="invite_code" class="form-input" 
+                       placeholder="z.B. RAVE2025" required style="text-transform: uppercase;">
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="username" class="form-label">Benutzername</label>
+                    <input type="text" id="username" name="username" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="form-label">E-Mail-Adresse</label>
+                    <input type="email" id="email" name="email" class="form-input" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password" class="form-label">Passwort</label>
+                <input type="password" id="password" name="password" class="form-input" required>
+                
+                <div class="password-requirements">
+                    <h5>Passwort-Anforderungen:</h5>
+                    <ul id="password-requirements-list">
+                        <li id="req-length">Mindestens 8 Zeichen</li>
+                        <li id="req-uppercase">Mindestens ein Großbuchstabe</li>
+                        <li id="req-lowercase">Mindestens ein Kleinbuchstabe</li>
+                        <li id="req-number">Mindestens eine Zahl</li>
+                        <li id="req-special">Mindestens ein Sonderzeichen</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password_confirm" class="form-label">Passwort bestätigen</label>
+                <input type="password" id="password_confirm" name="password_confirm" class="form-input" required>
+            </div>
+            
+            <div id="error-message" class="error-message" style="display: none;"></div>
+            <div id="success-message" class="success-message" style="display: none;"></div>
+            
+            <button type="submit" class="btn btn-primary auth-submit">
+                Registrieren
+            </button>
+        </form>
+        
+        <div class="auth-footer">
+            <p>Bereits registriert?</p>
+            <a href="{{ url_for('main.login') }}">Jetzt anmelden</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/firebase-config.js') }}"></script>
+<script src="{{ url_for('static', filename='js/firebase-auth.js') }}"></script>
+{% endblock %}

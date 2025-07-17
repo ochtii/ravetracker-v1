@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Login - RaveTracker v1{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1>Willkommen zurück</h1>
+            <p>Melde dich an und entdecke die besten elektronischen Events</p>
+        </div>
+        
+        <form class="auth-form" id="loginForm">
+            <div class="form-group">
+                <label for="email" class="form-label">E-Mail-Adresse</label>
+                <input type="email" id="email" name="email" class="form-input" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password" class="form-label">Passwort</label>
+                <input type="password" id="password" name="password" class="form-input" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary auth-submit">
+                Anmelden
+            </button>
+        </form>
+        
+        <div class="auth-footer">
+            <p>Noch kein Account?</p>
+            <a href="{{ url_for('main.register') }}">Jetzt registrieren</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/firebase-config.js') }}"></script>
+<script src="{{ url_for('static', filename='js/firebase-auth.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Panel - RaveTracker v1{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="admin-container">
+        <!-- Admin Header -->
+        <section class="admin-header">
+            <div class="container">
+                <div class="header-content glass">
+                    <div class="header-info">
+                        <h1 class="admin-title">
+                            <span class="icon">🛡️</span>
+                            Admin Control Panel
+                        </h1>
+                        <p class="admin-subtitle">Systemverwaltung und Übersicht</p>
+                    </div>
+                    <div class="admin-stats">
+                        <div class="stat-card glass">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-value" id="total-users">-</div>
+                            <div class="stat-label">Benutzer</div>
+                        </div>
+                        <div class="stat-card glass">
+                            <div class="stat-icon">🎉</div>
+                            <div class="stat-value" id="total-events">-</div>
+                            <div class="stat-label">Events</div>
+                        </div>
+                        <div class="stat-card glass">
+                            <div class="stat-icon">🚨</div>
+                            <div class="stat-value" id="pending-reports">-</div>
+                            <div class="stat-label">Reports</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Admin Actions -->
+        <section class="admin-actions">
+            <div class="container">
+                <div class="actions-grid">
+                    <!-- User Management -->
+                    <div class="action-card glass">
+                        <div class="card-header">
+                            <span class="card-icon">👥</span>
+                            <h3>Benutzerverwaltung</h3>
+                        </div>
+                        <div class="card-content">
+                            <p>Benutzer verwalten, Rollen zuweisen und Aktivitäten überwachen.</p>
+                            <div class="card-actions">
+                                <button class="btn btn-primary" id="view-users">Benutzer anzeigen</button>
+                                <button class="btn btn-outline" id="export-users">Export</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event Management -->
+                    <div class="action-card glass">
+                        <div class="card-header">
+                            <span class="card-icon">🎉</span>
+                            <h3>Event Management</h3>
+                        </div>
+                        <div class="card-content">
+                            <p>Events moderieren, genehmigen und verwalten.</p>
+                            <div class="card-actions">
+                                <button class="btn btn-primary" id="view-events">Events verwalten</button>
+                                <button class="btn btn-outline" id="pending-events">Warteschlange</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reports & Moderation -->
+                    <div class="action-card glass">
+                        <div class="card-header">
+                            <span class="card-icon">🚨</span>
+                            <h3>Moderation</h3>
+                        </div>
+                        <div class="card-content">
+                            <p>Reports bearbeiten und Community-Richtlinien durchsetzen.</p>
+                            <div class="card-actions">
+                                <button class="btn btn-primary" id="view-reports">Reports anzeigen</button>
+                                <button class="btn btn-outline" id="ban-appeals">Appeals</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Settings -->
+                    <div class="action-card glass">
+                        <div class="card-header">
+                            <span class="card-icon">⚙️</span>
+                            <h3>Systemeinstellungen</h3>
+                        </div>
+                        <div class="card-content">
+                            <p>Konfiguration, Backup und Systemwartung.</p>
+                            <div class="card-actions">
+                                <button class="btn btn-primary" id="system-config">Einstellungen</button>
+                                <button class="btn btn-outline" id="backup-system">Backup</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Analytics -->
+                    <div class="action-card glass">
+                        <div class="card-header">
+                            <span class="card-icon">📊</span>
+                            <h3>Analytics</h3>
+                        </div>
+                        <div class="card-content">
+                            <p>Statistiken, Berichte und Trend-Analysen.</p>
+                            <div class="card-actions">
+                                <button class="btn btn-primary" id="view-analytics">Analytics</button>
+                                <button class="btn btn-outline" id="generate-report">Bericht</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security -->
+                    <div class="action-card glass">
+                        <div class="card-header">
+                            <span class="card-icon">🔒</span>
+                            <h3>Sicherheit</h3>
+                        </div>
+                        <div class="card-content">
+                            <p>Sicherheitseinstellungen und Zugriffskontrollen.</p>
+                            <div class="card-actions">
+                                <button class="btn btn-primary" id="security-settings">Sicherheit</button>
+                                <button class="btn btn-outline" id="audit-logs">Audit Logs</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Activity -->
+        <section class="recent-activity">
+            <div class="container">
+                <h2 class="section-title">
+                    <span class="icon">📋</span>
+                    Letzte Aktivitäten
+                </h2>
+                <div class="activity-list glass">
+                    <div class="activity-item" id="activity-loading">
+                        <span class="activity-icon">⏳</span>
+                        <span class="activity-text">Lade Aktivitäten...</span>
+                        <span class="activity-time">Jetzt</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}RaveTracker v1{% endblock %}</title>
+    
+    <!-- Base Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    
+    <!-- Page-specific styles -->
+    {% block styles %}{% endblock %}
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="{{ url_for('main.index') }}">
+                    {% block header_logo %}
+                    <img src="{{ url_for('static', filename='img/rt-logo-header.png') }}" alt="RaveTracker Logo" class="logo-img">
+                    {% endblock %}
+                </a>
+            </div>
+            
+            <div class="nav-menu" id="nav-menu">
+                <a href="{{ url_for('main.index') }}" class="nav-link">Home</a>
+                
+                <!-- Events Dropdown -->
+                <div class="nav-dropdown">
+                    <a href="{{ url_for('main.events') }}" class="nav-link dropdown-trigger">
+                        Events <span class="dropdown-arrow">▼</span>
+                    </a>
+                    <div class="nav-dropdown-content">
+                        <a href="{{ url_for('main.events') }}" class="dropdown-item">
+                            <span class="item-icon">🔍</span>
+                            Events entdecken
+                        </a>
+                        <a href="{{ url_for('main.my_events') }}" class="dropdown-item" id="my-events-link" style="display: none;">
+                            <span class="item-icon">📅</span>
+                            Meine Events
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="{{ url_for('main.create_event') }}" class="dropdown-item" id="create-event-nav" style="display: none;">
+                            <span class="item-icon">➕</span>
+                            Event erstellen
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="nav-user" id="nav-user">
+                    <!-- Not logged in -->
+                    <div class="auth-buttons" id="auth-buttons">
+                        <a href="{{ url_for('main.login') }}" class="btn btn-outline">Login</a>
+                        <a href="{{ url_for('main.register') }}" class="btn btn-primary">Register</a>
+                    </div>
+                    
+                    <!-- Logged in -->
+                    <div class="user-menu" id="user-menu" style="display: none;">
+                        <div class="dropdown">
+                            <button class="dropdown-toggle" id="user-dropdown">
+                                <span class="user-name" id="user-name">User</span>
+                                <span class="arrow">▼</span>
+                            </button>
+                            <div class="dropdown-content">
+                                <a href="{{ url_for('main.dashboard') }}">Dashboard</a>
+                                <a href="{{ url_for('main.create_event') }}" id="create-event-link" style="display: none;">Event erstellen</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" id="organizer-link" style="display: none;">Organizer Panel</a>
+                                <a href="#" id="moderator-link" style="display: none;">Moderator Panel</a>
+                                <a href="#" id="admin-link" style="display: none;">Admin Panel</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="{{ url_for('main.support') }}">Support</a>
+                                <a href="#" id="logout-btn">Logout</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="nav-toggle" id="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>RaveTracker v1</h3>
+                <p>Die Plattform für elektronische Musik Events</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="{{ url_for('main.events') }}">Events</a></li>
+                    <li><a href="{{ url_for('main.support') }}">Support</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Genres</h4>
+                <ul>
+                    <li><span class="genre-tag goa">Goa</span></li>
+                    <li><span class="genre-tag psytrance">Psytrance</span></li>
+                    <li><span class="genre-tag dnb">DnB</span></li>
+                    <li><span class="genre-tag hardcore">Hardcore</span></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <p>Licensed under <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank">GNU GPL v3</a></p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 RaveTracker v1. Open Source under GNU GPL v3.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase Configuration -->
+    <script src="{{ url_for('static', filename='js/firebase-config.js') }}"></script>
+    
+    <!-- Base JavaScript -->
+    <script src="{{ url_for('static', filename='js/base-firebase.js') }}"></script>
+    
+    <!-- Page-specific scripts -->
+    {% block scripts %}{% endblock %}
+</body>
+</html>

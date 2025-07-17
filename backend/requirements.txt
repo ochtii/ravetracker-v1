@@ -1,0 +1,28 @@
+# Flask Framework
+Flask==2.3.3
+Flask-CORS==4.0.0
+
+# Firebase
+firebase-admin==6.2.0
+
+# Authentication & Security
+PyJWT==2.8.0
+Werkzeug==2.3.7
+
+# Environment & Configuration
+python-dotenv==1.0.0
+
+# Date & Time utilities
+python-dateutil==2.8.2
+
+# Development dependencies
+pytest==7.4.2
+pytest-flask==1.2.0
+pytest-cov==4.1.0
+
+# Code quality
+flake8==6.1.0
+black==23.9.1
+
+# Documentation
+Sphinx==7.2.6

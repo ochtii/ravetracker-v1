@@ -1,0 +1,313 @@
+{% extends "base.html" %}
+
+{% block title %}Event erstellen - RaveTracker v1{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/create-event.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="page-header">
+            <div class="header-content">
+                <h1 class="page-title">
+                    <i class="fas fa-plus-circle"></i>
+                    Event erstellen
+                </h1>
+                <p class="page-subtitle">Teile dein elektronisches Musik-Event mit der Community</p>
+            </div>
+        </div>
+
+        <div class="create-event-container">
+                <form id="create-event-form" class="event-form">
+                    <!-- Basic Information -->
+                    <div class="form-section">
+                        <h2 class="section-title">
+                            <i class="fas fa-info-circle"></i>
+                            Grundinformationen
+                        </h2>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="event-title" class="form-label">Event-Titel *</label>
+                                <input type="text" id="event-title" name="title" class="form-input" required
+                                       placeholder="z.B. Goa Festival 2025 - Waldlichtung Experience">
+                                <div class="form-help">Wähle einen aussagekräftigen und einprägsamen Titel</div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="event-description" class="form-label">Beschreibung *</label>
+                                <textarea id="event-description" name="description" class="form-textarea" required
+                                          placeholder="Beschreibe dein Event: Künstler, Location, besondere Features..."></textarea>
+                                <div class="form-help">Detaillierte Beschreibung hilft bei der Sichtbarkeit</div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label for="event-genre" class="form-label">Genre *</label>
+                                <select id="event-genre" name="genre" class="form-select" required>
+                                    <option value="">Genre wählen...</option>
+                                    <option value="Goa">Goa</option>
+                                    <option value="Psytrance">Psytrance</option>
+                                    <option value="Progressive">Progressive</option>
+                                    <option value="Dark Psy">Dark Psy</option>
+                                    <option value="Forest">Forest</option>
+                                    <option value="Hi-Tech">Hi-Tech</option>
+                                    <option value="DnB">Drum & Bass</option>
+                                    <option value="Hardcore">Hardcore</option>
+                                    <option value="Techno">Techno</option>
+                                    <option value="Trance">Trance</option>
+                                    <option value="Mixed">Mixed</option>
+                                </select>
+                            </div>
+                            <div class="form-group half">
+                                <label for="event-type" class="form-label">Event-Typ *</label>
+                                <select id="event-type" name="type" class="form-select" required>
+                                    <option value="">Typ wählen...</option>
+                                    <option value="Festival">Festival</option>
+                                    <option value="Party">Party</option>
+                                    <option value="OpenAir">Open Air</option>
+                                    <option value="Indoor">Indoor</option>
+                                    <option value="Rave">Rave</option>
+                                    <option value="Gathering">Gathering</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Date & Time -->
+                    <div class="form-section">
+                        <h2 class="section-title">
+                            <i class="fas fa-calendar-alt"></i>
+                            Datum & Zeit
+                        </h2>
+                        
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label for="event-date" class="form-label">Startdatum *</label>
+                                <input type="date" id="event-date" name="date" class="form-input" required>
+                            </div>
+                            <div class="form-group half">
+                                <label for="event-time" class="form-label">Startzeit</label>
+                                <input type="time" id="event-time" name="time" class="form-input"
+                                       placeholder="z.B. 22:00">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label for="event-end-date" class="form-label">Enddatum</label>
+                                <input type="date" id="event-end-date" name="end_date" class="form-input">
+                            </div>
+                            <div class="form-group half">
+                                <label for="event-end-time" class="form-label">Endzeit</label>
+                                <input type="time" id="event-end-time" name="end_time" class="form-input">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="form-section">
+                        <h2 class="section-title">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Location
+                        </h2>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="event-location" class="form-label">Veranstaltungsort *</label>
+                                <input type="text" id="event-location" name="location" class="form-input" required
+                                       placeholder="z.B. Waldlichtung am Chiemsee">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label for="event-city" class="form-label">Stadt *</label>
+                                <input type="text" id="event-city" name="city" class="form-input" required
+                                       placeholder="z.B. München">
+                            </div>
+                            <div class="form-group half">
+                                <label for="event-state" class="form-label">Bundesland/Region</label>
+                                <input type="text" id="event-state" name="state" class="form-input"
+                                       placeholder="z.B. Bayern">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="event-address" class="form-label">Adresse (optional)</label>
+                                <input type="text" id="event-address" name="address" class="form-input"
+                                       placeholder="Straße und Hausnummer (wenn öffentlich zugänglich)">
+                                <div class="form-help">Nur angeben, wenn öffentlich zugänglich</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Artists & Lineup -->
+                    <div class="form-section">
+                        <h2 class="section-title">
+                            <i class="fas fa-microphone"></i>
+                            Artists & Lineup
+                        </h2>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="event-artists" class="form-label">Künstler/DJs</label>
+                                <textarea id="event-artists" name="artists" class="form-textarea"
+                                          placeholder="Liste die auftretenden Künstler auf (einen pro Zeile oder kommagetrennt)"></textarea>
+                                <div class="form-help">Einer pro Zeile oder mit Komma getrennt</div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label for="event-headliner" class="form-label">Headliner</label>
+                                <input type="text" id="event-headliner" name="headliner" class="form-input"
+                                       placeholder="Main-Act des Events">
+                            </div>
+                            <div class="form-group half">
+                                <label for="event-stages" class="form-label">Anzahl Stages</label>
+                                <select id="event-stages" name="stages" class="form-select">
+                                    <option value="1">1 Stage</option>
+                                    <option value="2">2 Stages</option>
+                                    <option value="3">3 Stages</option>
+                                    <option value="4">4+ Stages</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tickets & Pricing -->
+                    <div class="form-section">
+                        <h2 class="section-title">
+                            <i class="fas fa-ticket-alt"></i>
+                            Tickets & Preise
+                        </h2>
+                        
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label for="event-price" class="form-label">Eintrittspreis</label>
+                                <input type="number" id="event-price" name="price" class="form-input" min="0" step="0.50"
+                                       placeholder="0">
+                                <div class="form-help">In Euro (0 für kostenlose Events)</div>
+                            </div>
+                            <div class="form-group half">
+                                <label for="event-capacity" class="form-label">Kapazität</label>
+                                <input type="number" id="event-capacity" name="capacity" class="form-input" min="1"
+                                       placeholder="z.B. 500">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="event-ticket-url" class="form-label">Ticket-Link</label>
+                                <input type="url" id="event-ticket-url" name="ticket_url" class="form-input"
+                                       placeholder="https://tickets.example.com">
+                                <div class="form-help">Link zum Ticketverkauf (falls verfügbar)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Information -->
+                    <div class="form-section">
+                        <h2 class="section-title">
+                            <i class="fas fa-cog"></i>
+                            Zusätzliche Informationen
+                        </h2>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="event-website" class="form-label">Website/Social Media</label>
+                                <input type="url" id="event-website" name="website" class="form-input"
+                                       placeholder="https://www.facebook.com/event/...">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="event-age-restriction" name="age_restriction" class="form-checkbox">
+                                    <span class="checkmark"></span>
+                                    Altersbeschränkung (18+)
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="event-camping" name="camping" class="form-checkbox">
+                                    <span class="checkmark"></span>
+                                    Camping möglich
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="event-special-info" class="form-label">Besondere Hinweise</label>
+                                <textarea id="event-special-info" name="special_info" class="form-textarea"
+                                          placeholder="Wichtige Hinweise für Besucher: Mitbringsel, Verbote, besondere Regeln..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="form-actions">
+                        <div class="actions-row">
+                            <button type="button" class="btn btn-secondary" id="save-draft-btn">
+                                <i class="fas fa-save"></i>
+                                Als Entwurf speichern
+                            </button>
+                            <div class="primary-actions">
+                                <button type="button" class="btn btn-outline" id="preview-btn">
+                                    <i class="fas fa-eye"></i>
+                                    Vorschau
+                                </button>
+                                <button type="submit" class="btn btn-primary" id="submit-btn">
+                                    <i class="fas fa-paper-plane"></i>
+                                    Event veröffentlichen
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-help-text">
+                            Mit dem Veröffentlichen stimmst du unseren <a href="/terms" target="_blank">Nutzungsbedingungen</a> zu.
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Event wird erstellt...</p>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-check-circle"></i> Event erfolgreich erstellt!</h2>
+            </div>
+            <div class="modal-body">
+                <p>Dein Event wurde erfolgreich veröffentlicht und ist jetzt für alle sichtbar.</p>
+                <div class="modal-actions">
+                    <button class="btn btn-primary" id="view-event-btn">Event ansehen</button>
+                    <button class="btn btn-outline" id="create-another-btn">Weiteres Event erstellen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/create-event.js') }}"></script>
+{% endblock %}

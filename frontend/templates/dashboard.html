@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - RaveTracker v1{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}?v={{ timestamp }}">
+{% endblock %}
+
+{% block content %}
+    <!-- Dashboard Header -->
+    <section class="dashboard-header">
+        <div class="container">
+            <div class="header-content glass">
+                <div class="header-logo">
+                    <img src="{{ url_for('static', filename='img/rt-logo-3.png') }}" alt="RaveTracker" class="dashboard-logo">
+                </div>
+                <div class="header-text">
+                    <h1 class="dashboard-title">
+                        <span class="wave">👋</span>
+                        Willkommen zurück, <span id="user-display-name">Raver</span>!
+                    </h1>
+                    <p class="dashboard-subtitle">Deine persönliche Kommandozentrale für elektronische Events</p>
+                </div>
+                <div class="header-stats">
+                    <div class="stat-card glass">
+                        <div class="stat-icon">🎉</div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="user-events-count">0</span>
+                            <span class="stat-label">Deine Events</span>
+                        </div>
+                    </div>
+                    <div class="stat-card glass">
+                        <div class="stat-icon">❤️</div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="favorite-events-count">0</span>
+                            <span class="stat-label">Favoriten</span>
+                        </div>
+                    </div>
+                    <div class="stat-card glass">
+                        <div class="stat-icon">📅</div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="upcoming-events-count">0</span>
+                            <span class="stat-label">Kommende Events</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="quick-actions">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="icon">⚡</span>
+                Schnellzugriff
+            </h2>
+            <div class="actions-grid">
+                <div class="action-card glass pulse-animation quickstart-guide" onclick="if(typeof dashboardManager !== 'undefined') dashboardManager.startQuickstartGuide()">
+                    <div class="action-icon">🚀</div>
+                    <h3>Quickstart Guide</h3>
+                    <p>Entdecke RaveTracker in 3 einfachen Schritten und werde Teil der Community</p>
+                    <div class="action-arrow">→</div>
+                </div>
+                <a href="/events" class="action-card glass">
+                    <div class="action-icon">🔍</div>
+                    <h3>Events entdecken</h3>
+                    <p>Finde die heißesten Partys in deiner Nähe</p>
+                    <div class="action-arrow">→</div>
+                </a>
+                <a href="/profile" class="action-card glass">
+                    <div class="action-icon">�</div>
+                    <h3>Profil bearbeiten</h3>
+                    <p>Aktualisiere deine Raver-Identität</p>
+                    <div class="action-arrow">→</div>
+                </a>
+                <a href="{{ url_for('main.my_events') }}" class="action-card glass">
+                    <div class="action-icon">�</div>
+                    <h3>Meine Events</h3>
+                    <p>Verwalte deine Teilnahmen und Interessen</p>
+                    <div class="action-arrow">→</div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recent Activity -->
+    <section class="recent-activity">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="icon">⏰</span>
+                Letzte Aktivitäten
+            </h2>
+            <div class="activity-feed glass">
+                <div class="activity-list" id="activity-list">
+                    <!-- Activities will be loaded here -->
+                    <div class="activity-item">
+                        <div class="activity-icon">🎉</div>
+                        <div class="activity-content">
+                            <p>Willkommen bei RaveTracker! Erstelle dein erstes Event.</p>
+                            <span class="activity-time">Gerade eben</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Upcoming Events -->
+    <section class="upcoming-events">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="icon">�</span>
+                Deine kommenden Events
+            </h2>
+            <div class="events-carousel">
+                <div class="carousel-container">
+                    <div class="carousel-wrapper">
+                        <div class="carousel-track" id="upcoming-carousel">
+                            <!-- Events will be loaded here -->
+                        </div>
+                    </div>
+                    <button class="carousel-btn prev" id="upcoming-prev">‹</button>
+                    <button class="carousel-btn next" id="upcoming-next">›</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Genre Statistics -->
+    <section class="genre-stats">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="icon">📊</span>
+                Deine Musik-DNA
+            </h2>
+            <div class="stats-grid">
+                <div class="genre-card glass goa">
+                    <div class="genre-icon">�</div>
+                    <h3>Goa</h3>
+                    <div class="genre-progress">
+                        <div class="progress-bar" data-progress="0"></div>
+                    </div>
+                    <span class="genre-count" id="goa-count">0 Events</span>
+                </div>
+                <div class="genre-card glass psytrance">
+                    <div class="genre-icon">🎭</div>
+                    <h3>Psytrance</h3>
+                    <div class="genre-progress">
+                        <div class="progress-bar" data-progress="0"></div>
+                    </div>
+                    <span class="genre-count" id="psytrance-count">0 Events</span>
+                </div>
+                <div class="genre-card glass dnb">
+                    <div class="genre-icon">⚡</div>
+                    <h3>DnB</h3>
+                    <div class="genre-progress">
+                        <div class="progress-bar" data-progress="0"></div>
+                    </div>
+                    <span class="genre-count" id="dnb-count">0 Events</span>
+                </div>
+                <div class="genre-card glass hardcore">
+                    <div class="genre-icon">🔥</div>
+                    <h3>Hardcore</h3>
+                    <div class="genre-progress">
+                        <div class="progress-bar" data-progress="0"></div>
+                    </div>
+                    <span class="genre-count" id="hardcore-count">0 Events</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Party Tips -->
+    <section class="party-tips">
+        <div class="container">
+            <h2 class="section-title">
+                <span class="icon">💡</span>
+                Party Survival Guide
+            </h2>
+            <div class="tips-carousel">
+                <div class="carousel-container">
+                    <div class="carousel-wrapper">
+                        <div class="carousel-track" id="tips-carousel">
+                            <!-- Tips will be loaded here -->
+                        </div>
+                    </div>
+                    <button class="carousel-btn prev" id="tips-prev">‹</button>
+                    <button class="carousel-btn next" id="tips-next">›</button>
+                    <div class="carousel-dots" id="carousel-dots">
+                        <!-- Dots will be created by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}

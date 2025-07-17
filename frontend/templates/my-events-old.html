@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}Meine Events - RaveTracker{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/my-events.css') }}">
+{% endblock %}extends "base.html" %}
+
+{% block title %}Meine Events - RaveTracker v1{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/events.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/my-events.css') }}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/my-events.js') }}"></script>
+{% endblock %}
+<div class="my-events-page">
+    <!-- Header Section -->
+    <section class="events-header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="page-title">
+                    <span class="gradient-text">Meine Events</span>
+                </h1>
+                <p class="page-description">
+                    Verwalte deine erstellten Events und verfolge deine Teilnahmen
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tabs Section -->
+    <section class="tabs-section">
+        <div class="container">
+            <div class="tabs-container">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" data-tab="attending">
+                        <span class="tab-icon">🎉</span>
+                        Teilnahmen
+                        <span class="tab-count" id="attending-count">0</span>
+                    </button>
+                    <button class="tab-btn" data-tab="created" id="created-tab" style="display: none;">
+                        <span class="tab-icon">🎯</span>
+                        Erstellt
+                        <span class="tab-count" id="created-count">0</span>
+                    </button>
+                    <button class="tab-btn" data-tab="interested">
+                        <span class="tab-icon">❤️</span>
+                        Interessiert
+                        <span class="tab-count" id="interested-count">0</span>
+                    </button>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="tab-content">
+                    <!-- Attending Events Tab -->
+                    <div class="tab-pane active" id="attending-tab">
+                        <div class="events-grid" id="attending-events">
+                            <div class="loading-state">
+                                <div class="spinner"></div>
+                                <p>Lade deine Teilnahmen...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Created Events Tab -->
+                    <div class="tab-pane" id="created-tab-content">
+                        <div class="created-actions">
+                            <a href="{{ url_for('main.create_event') }}" class="btn btn-primary">
+                                <span class="btn-icon">➕</span>
+                                Neues Event erstellen
+                            </a>
+                        </div>
+                        <div class="events-grid" id="created-events">
+                            <div class="loading-state">
+                                <div class="spinner"></div>
+                                <p>Lade deine Events...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Interested Events Tab -->
+                    <div class="tab-pane" id="interested-tab-content">
+                        <div class="events-grid" id="interested-events">
+                            <div class="loading-state">
+                                <div class="spinner"></div>
+                                <p>Lade deine Interessen...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Empty States -->
+    <div class="empty-state" id="empty-attending" style="display: none;">
+        <div class="empty-icon">🎵</div>
+        <h3>Keine Teilnahmen</h3>
+        <p>Du nimmst noch an keinen Events teil.</p>
+        <a href="{{ url_for('main.events') }}" class="btn btn-primary">Events entdecken</a>
+    </div>
+
+    <div class="empty-state" id="empty-created" style="display: none;">
+        <div class="empty-icon">🎯</div>
+        <h3>Keine erstellten Events</h3>
+        <p>Du hast noch keine Events erstellt.</p>
+        <a href="{{ url_for('main.create_event') }}" class="btn btn-primary">Erstes Event erstellen</a>
+    </div>
+
+    <div class="empty-state" id="empty-interested" style="display: none;">
+        <div class="empty-icon">💙</div>
+        <h3>Keine Interessen</h3>
+        <p>Du hast noch kein Interesse an Events gezeigt.</p>
+        <a href="{{ url_for('main.events') }}" class="btn btn-primary">Events entdecken</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/my-events.js') }}"></script>
+{% endblock %}

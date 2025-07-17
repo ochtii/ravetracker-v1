@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Meine Events - RaveTracker{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/my-events.css') }}">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/my-events.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container" data-page="my-events">
+    <div class="page-header">
+        <h1 class="page-title">
+            <i class="fas fa-calendar-user"></i>
+            Meine Events
+        </h1>
+        <p class="page-subtitle">Verwalte deine Events und Teilnahmen</p>
+    </div>
+
+    <div class="tabs-section">
+        <div class="tabs-container">
+            <!-- Tab Navigation -->
+            <div class="tab-buttons">
+                <button class="tab-btn active" data-tab="attending">
+                    <span class="tab-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </span>
+                    <span>Teilnahmen</span>
+                    <span class="tab-count">0</span>
+                </button>
+                
+                <button class="tab-btn role-restricted organizer admin" data-tab="created">
+                    <span class="tab-icon">
+                        <i class="fas fa-plus-circle"></i>
+                    </span>
+                    <span>Erstellt</span>
+                    <span class="tab-count">0</span>
+                </button>
+                
+                <button class="tab-btn" data-tab="interested">
+                    <span class="tab-icon">
+                        <i class="fas fa-heart"></i>
+                    </span>
+                    <span>Interessiert</span>
+                    <span class="tab-count">0</span>
+                </button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+                <!-- Attending Events Tab -->
+                <div id="attending-events" class="tab-pane active">
+                    <div class="events-grid">
+                        <!-- Events werden hier dynamisch geladen -->
+                    </div>
+                </div>
+
+                <!-- Created Events Tab -->
+                <div id="created-events" class="tab-pane">
+                    <div class="created-actions">
+                        <a href="/create-event" class="btn btn-primary">
+                            <i class="fas fa-plus"></i>
+                            Neues Event erstellen
+                        </a>
+                    </div>
+                    <div class="events-grid">
+                        <!-- Events werden hier dynamisch geladen -->
+                    </div>
+                </div>
+
+                <!-- Interested Events Tab -->
+                <div id="interested-events" class="tab-pane">
+                    <div class="events-grid">
+                        <!-- Events werden hier dynamisch geladen -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+
+{% block title %}Events - RaveTracker v1{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/events.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="events-page">
+    <!-- Header Section -->
+    <section class="events-header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="page-title">
+                    <span class="gradient-text">Events</span> entdecken
+                </h1>
+                <p class="page-description">
+                    Finde die besten elektronischen Musik-Events in deiner Nähe
+                </p>
+            </div>
+            
+            <!-- Filter Controls -->
+            <div class="filter-section">
+                <div class="filter-row">
+                    <div class="filter-group">
+                        <label for="genre-filter">Genre</label>
+                        <select id="genre-filter" class="filter-select">
+                            <option value="">Alle Genres</option>
+                            <option value="goa">Goa Trance</option>
+                            <option value="psytrance">Psytrance</option>
+                            <option value="dnb">Drum & Bass</option>
+                            <option value="hardcore">Hardcore</option>
+                            <option value="techno">Techno</option>
+                            <option value="house">House</option>
+                            <option value="trance">Trance</option>
+                            <option value="breakbeat">Breakbeat</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="location-filter">Ort</label>
+                        <input type="text" id="location-filter" class="filter-input" placeholder="Stadt oder Region">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="date-filter">Datum</label>
+                        <input type="date" id="date-filter" class="filter-input">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="price-filter">Preis</label>
+                        <select id="price-filter" class="filter-select">
+                            <option value="">Alle Preise</option>
+                            <option value="free">Kostenlos</option>
+                            <option value="0-20">Bis €20</option>
+                            <option value="20-50">€20 - €50</option>
+                            <option value="50+">Über €50</option>
+                        </select>
+                    </div>
+                    
+                    <button id="apply-filters" class="btn btn-primary">
+                        🔍 Filter anwenden
+                    </button>
+                    
+                    <button id="clear-filters" class="btn btn-secondary">
+                        🗑️ Zurücksetzen
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Grid -->
+    <section class="events-section">
+        <div class="container">
+            <!-- View Controls -->
+            <div class="view-controls">
+                <div class="view-toggle">
+                    <button id="grid-view" class="view-btn active" data-view="grid">
+                        📱 Grid
+                    </button>
+                    <button id="list-view" class="view-btn" data-view="list">
+                        📋 Liste
+                    </button>
+                </div>
+                
+                <div class="sort-controls">
+                    <label for="sort-select">Sortieren:</label>
+                    <select id="sort-select" class="sort-select">
+                        <option value="date_asc">Datum (aufsteigend)</option>
+                        <option value="date_desc">Datum (absteigend)</option>
+                        <option value="price_asc">Preis (niedrig zu hoch)</option>
+                        <option value="price_desc">Preis (hoch zu niedrig)</option>
+                        <option value="popularity">Beliebtheit</option>
+                        <option value="created_at">Zuletzt hinzugefügt</option>
+                    </select>
+                </div>
+                
+                <div class="action-controls">
+                    <button id="create-event-btn" class="btn btn-primary" style="display: none;">
+                        <span class="btn-icon">➕</span>
+                        Event erstellen
+                    </button>
+                </div>
+                
+                <div class="results-info">
+                    <span id="results-count">0 Events gefunden</span>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loading-state" class="loading-state">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                </div>
+                <p>Lade Events...</p>
+            </div>
+
+            <!-- Events Container -->
+            <div id="events-container" class="events-container">
+                <!-- Events will be dynamically loaded here -->
+            </div>
+
+            <!-- No Results State -->
+            <div id="no-results" class="no-results" style="display: none;">
+                <div class="no-results-icon">🎵</div>
+                <h3>Keine Events gefunden</h3>
+                <p>Versuche andere Filter oder erstelle selbst ein Event!</p>
+                <a href="/events/create" class="btn btn-primary">Event erstellen</a>
+            </div>
+
+            <!-- Error State -->
+            <div id="error-state" class="error-state" style="display: none;">
+                <div class="error-icon">⚠️</div>
+                <h3>Fehler beim Laden</h3>
+                <p>Events konnten nicht geladen werden. Bitte versuche es später erneut.</p>
+                <button id="retry-loading" class="btn btn-primary">Erneut versuchen</button>
+            </div>
+
+            <!-- Pagination -->
+            <div id="pagination" class="pagination" style="display: none;">
+                <button id="prev-page" class="btn btn-secondary" disabled>
+                    ← Vorherige
+                </button>
+                <span id="page-info">Seite 1 von 1</span>
+                <button id="next-page" class="btn btn-secondary" disabled>
+                    Nächste →
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Actions (for logged-in users) -->
+    <div id="quick-actions" class="quick-actions" style="display: none;">
+        <button id="create-event-fab" class="fab" title="Event erstellen">
+            ➕
+        </button>
+    </div>
+</div>
+
+<!-- Event Detail Modal -->
+<div id="event-modal" class="modal" style="display: none;">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modal-title">Event Details</h3>
+            <button id="close-modal" class="modal-close">✕</button>
+        </div>
+        <div class="modal-body" id="modal-body">
+            <!-- Event details will be loaded here -->
+        </div>
+        <div class="modal-footer">
+            <button id="view-event-details" class="btn btn-primary">
+                <span class="btn-icon">👁️</span>
+                Event-Details anzeigen
+            </button>
+            <button id="close-modal-footer" class="btn btn-outline">
+                Schließen
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/events.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,196 @@
+# RaveTracker v1 Requirements
+
+## Development Dependencies
+
+### Backend Requirements
+```
+flask==3.1.0
+flask-cors==5.0.0
+firebase-admin==6.5.0
+python-jose[cryptography]==3.3.0
+python-dotenv==1.0.1
+werkzeug==3.1.0
+```
+
+### Testing Requirements
+```
+pytest==8.3.3
+pytest-flask==1.3.0
+pytest-mock==3.14.0
+pytest-cov==5.0.0
+```
+
+### Development Tools
+```
+black==24.10.0
+flake8==7.1.1
+isort==5.13.2
+```
+
+## Installation Instructions
+
+### 1. Create Virtual Environment
+```bash
+python -m venv venv
+.\venv\Scripts\activate  # Windows
+source venv/bin/activate  # Linux/Mac
+```
+
+### 2. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 3. Environment Configuration
+Create `.env` file in project root:
+```
+FLASK_ENV=development
+SECRET_KEY=your-secret-key-here
+FIREBASE_PROJECT_ID=your-firebase-project-id
+```
+
+### 4. Firebase Setup
+1. Create Firebase project at https://console.firebase.google.com
+2. Enable Firestore Database
+3. Generate service account key
+4. Save as `firebase-key.json` in project root
+5. Update `FIREBASE_PROJECT_ID` in `.env`
+
+### 5. Run Application
+```bash
+cd backend
+python run.py
+```
+
+### 6. Run Tests
+```bash
+pytest tests/ -v --cov=app
+```
+
+## Project Structure
+
+```
+ravetracker_v1/
+├── backend/
+│   ├── app/
+│   │   ├── __init__.py
+│   │   ├── blueprints/
+│   │   └── utils/
+│   ├── config.py
+│   └── run.py
+├── frontend/
+│   ├── static/
+│   └── templates/
+├── tests/
+│   ├── unit/
+│   └── integration/
+├── requirements.txt
+└── README.md
+```
+
+## API Documentation
+
+### Authentication Endpoints
+- `POST /api/auth/register` - User registration with invite code
+- `POST /api/auth/login` - User login
+- `GET /api/auth/profile` - Get user profile
+- `POST /api/auth/request-organizer` - Request organizer role
+
+### Event Endpoints
+- `GET /api/events` - List events with filters
+- `POST /api/events` - Create event (organizer+)
+- `GET /api/events/<id>` - Get event details
+- `PUT /api/events/<id>` - Update event (organizer)
+- `DELETE /api/events/<id>` - Delete event (organizer/moderator)
+- `POST /api/events/<id>/interest` - Toggle interest
+- `POST /api/events/<id>/attend` - Toggle attendance
+
+### Subscription Endpoints
+- `GET /api/subscriptions/plans` - Get subscription plans
+- `POST /api/subscriptions/upgrade` - Upgrade subscription
+- `GET /api/subscriptions/subscription` - Get user subscription
+- `POST /api/subscriptions/validate-coupon` - Validate coupon
+- `POST /api/subscriptions/create-coupon` - Create coupon (admin)
+
+### Moderation Endpoints
+- `POST /api/reports` - Create report
+- `GET /api/reports` - List reports (moderator+)
+- `POST /api/reports/<id>/action` - Take moderation action
+- `GET /api/reports/stats` - Get moderation statistics
+
+### Support Endpoints
+- `POST /api/support/tickets` - Create support ticket
+- `GET /api/support/tickets` - List user tickets
+- `POST /api/support/tickets/<id>/response` - Add ticket response
+- `PUT /api/support/tickets/<id>/status` - Update ticket status
+
+## User Roles
+
+### User (Default)
+- View public events
+- Show interest in events
+- Attend events
+- Create support tickets
+- Submit reports
+
+### Organizer
+- All user permissions
+- Create/edit/delete own events
+- View event analytics
+- Manage event attendees
+
+### Moderator
+- All organizer permissions
+- Review and action reports
+- Moderate all content
+- View moderation statistics
+
+### Admin
+- All moderator permissions
+- Manage user roles
+- Create invite codes
+- Create coupons
+- Access all system features
+
+## Subscription Plans
+
+### Free
+- View events
+- Basic interaction
+- 1 event creation (organizers)
+
+### Premium (€9.99/month)
+- All free features
+- 5 event creations
+- Priority support
+- Advanced filters
+
+### Pro (€19.99/month)
+- All premium features
+- 20 event creations
+- Analytics dashboard
+- Promotion tools
+
+### Unlimited (€39.99/month)
+- All pro features
+- Unlimited event creations
+- Custom branding
+- API access
+
+## Security Features
+
+- JWT-based authentication
+- Role-based access control
+- Invite-only registration
+- Input validation and sanitization
+- Rate limiting (to be implemented)
+- Content moderation system
+
+## License
+
+GNU General Public License v3.0
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
